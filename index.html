@@ -1,0 +1,276 @@
+<!--https://demos.telerik.com/kendo-ui/content/shared/js/mobile-examples.js-->
+<!--?displayName=小華&userId=U722be0c9c9d36e011c0e556bd2047819&pictureUrl=www.google.com-->
+<!--?displayName=小A&userId=U72Abe0c9c9d36e011c0e556bd2047819&pictureUrl=https://media.tractorsupply.com/is/image/TractorSupplyCompany/1305371?$456$-->
+    
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title></title>
+  <meta name="msapplication-tap-highlight" content="no" />
+
+  <!--  using Noto Sans TC is added by Paul Kang-->
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+TC&display=swap" rel="stylesheet">
+
+  <link href="https://kendo.cdn.telerik.com/2020.1.114/styles/kendo.common-nova.min.css" rel="stylesheet" />
+  <link href="https://kendo.cdn.telerik.com/2020.1.114/styles/kendo.nova.min.css" rel="stylesheet" />
+  <link href="https://kendo.cdn.telerik.com/2020.1.114/styles/kendo.mobile.nova.min.css" rel="stylesheet" />   
+
+  <link href="css/courseStyle.css" rel="stylesheet" />
+     
+  <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+  <script src="https://kendo.cdn.telerik.com/2020.1.114/js/kendo.all.min.js"></script>
+  <script src="https://kendo.cdn.telerik.com/2020.1.114/js/kendo.timezones.min.js"></script>
+  
+  <link rel="stylesheet" href="css/loading.css" />
+  <script src="js/loading.js"></script>    
+</head>
+
+<body id="body">
+
+  <style>
+  
+    .km-on-ios  .km-list > li {
+        background-color: rgb(250,250,250);
+        border-radius:10px;
+        margin: 10px;
+    }
+
+    .km-on-ios .km-header .km-navbar
+    /* for data-title="打鐵健身- 身體組成自動量測系統" */
+    {
+      background-color: darkslategray;
+      /* deeppink; */
+      font-size: 16px;
+    }
+
+    .km-on-ios .km-header .km-widget,
+    .km-on-ios .km-header .km-view-title {
+      color: white;
+    }
+
+    .km-on-android  .km-list > li {
+        background-color: rgb(250,250,250);
+        border-radius:10px;
+        margin: 10px;
+    }
+
+    .km-on-android .km-header .km-navbar
+    /* for data-title="打鐵健身- 身體組成自動量測系統" */
+    {
+      background-color: darkslategray;
+      /* deeppink; */
+      font-size: 16px;
+    }
+
+    .km-on-android .km-header .km-widget,
+    .km-on-android .km-header .km-view-title {
+      color: white;
+    }
+      
+    .NotoSansFont {
+      font-family: 'Noto Sans TC'; 
+    }
+    
+    .進行量測Label {
+      font-size: 18px;
+/*      font-weight: bold;*/
+      margin-left: 15px;
+      color: white;
+    }
+
+    .進行量測Input {
+      font-size: 18px;
+/*      font-weight: bold;*/
+      padding-left: 10px;
+/*      margin-right: 15px;      */
+      width: 100%;
+      color: darkslategray;
+    }    
+    
+    .量測記錄卡片 {
+      font-size: 18px;
+      margin-left: 15px;
+
+    }
+    
+    .店面陣列 > a {
+        display: inline-block;
+        *display: inline; /* For IE7 */
+        zoom: 1; /* Trigger hasLayout */
+        width: 25%;
+        text-align: center;
+    }    
+    
+    #calendar,
+    #calendar .k-calendar-view,
+    #calendar .k-content {
+        width: 100%;
+    }    
+  </style>
+  <h1 style="text-align:center">MA801 Simulator</h1>
+  <button style="font-size:20px; margin-right:10%; float:right" onclick="powerToggle()">Power</button><br><br> 
+  <div id="cloudMsgDiv" style="width:80%; margin:0 auto 20px auto; height:400px;background-color:gray;color:white; padding:10px">
+    <span id="powerStatusIcon" style="width:20px;height:20px; background-color:black; float:right;border-radius:10px"></span>
+    <span id="powerStatus" style="float:right;margin-right:10px">POWER OFF</span><br>
+                
+    <p style="text-align:center; font-size:20px; margin-top:-20px; padding-left:80px"><b>MA801</b></p>
+    <p style="">Get cmd: Cloud Response Message:</p>
+    <div style="width:45%; float:left">
+      <p id="timeStamp">Timestamp:</p>
+      <p id="cmd">cmd:</p>    
+      <p>raw data:</p>
+      <p id="cloudResponseMessage" style="width:100%"></p>       
+    </div>   
+  </div>
+  <div id="buttons" style="width:80%; margin:0 auto 20px auto;">
+
+    <button width="100px" style="font-size:20px; margin-top:10px;" onclick="getCMD()">Get CMD</button><br>    
+    <button style="font-size:20px; margin-top:10px; ">POST select_confirmed</button><br>
+    <button style="font-size:20px; margin-top:10px; ">POST user_info_confirmed</button><br>
+    <button style="font-size:20px; margin-top:10px; ">POST logged_in</button><br> 
+    <button style="font-size:20px; margin-top:10px; ">POST start_weight_measurement</button><br>
+    <button style="font-size:20px; margin-top:10px; ">POST weight_measurement_done</button><br>
+    <button style="font-size:20px; margin-top:10px; ">POST check_electrodes</button><br>    
+    <button style="font-size:20px; margin-top:10px; ">POST check_electrodes_done</button><br>  
+    <button style="font-size:20px; margin-top:10px; ">POST start_bodycomposition_analysis</button><br>
+    <button style="font-size:20px; margin-top:10px; ">POST bodycomposition_analysis_results</button><br>             
+  </div>
+ 
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-app.js"></script>
+ 
+  <script>
+    var useLocalAPIs = true;
+  </script>
+<!--
+  <script src="3-controllers/functions.js"></script>
+  <script src="1-models/data-process.js"></script>
+  <script src="js/prettify.js"></script> 
+-->
+  
+  <script>
+    
+    // 中光電竹南廠
+    var 場所位置1緯度=  24.7118; 
+    var 場所位置1經度= 120.9162;
+
+    //新竹市東區中央路160號
+    var 場所位置2緯度=  24.807699;
+    var 場所位置2經度= 120.972103;
+    
+    //北大運動場
+    var 場所位置緯度=   24.940216;
+    var 場所位置經度=  121.365881;
+    
+    var 目前位置緯度;
+    var 目前位置經度;
+          
+    var paramToSend = "";
+    var inputParamString = location.search;
+    var inputParam = inputParamString.split("&");
+    var displayName, userId, pictureUrl;
+    var inputError = false;
+    
+    var 預設常用健身房 = "永和店";
+    
+    var 店面名稱=["永和店", "板橋店", "土城店", "錦州店",
+                 "三重店", "松山店", "府中店"                 
+                ]; // 測試用，之後從 API 取得
+
+    var 機器序號=["T00000001", "T00000002", "T00000003", "T00000004",
+                 "T00000005", "T00000006", "T00000007", "T00000008",
+                 "T00000009"                 
+                ]; // 測試用，之後從 API 取得      
+    
+    // Append 店面名稱到個人資料中 預設常用健身房 選項
+//    for (var i=0; i< 店面名稱.length; i++){
+//      $("#預設常用健身房").append("<option value='"+店面名稱[i]+"'>"+店面名稱[i]+"</option>");
+//    }
+    
+    
+    // checkInputParam() 和 checkUserIdExist() 都是在 functions.js 定義
+    //if (checkInputParam()) checkUserIdExist();
+  
+    //app.navigate('#forms');
+    
+    var powerIsOn =false;
+    var res;
+    var apiSite="http://localhost:5000/";    
+    //var apiSite="https://charder.herokuapp.com/";
+    var paramToSend;   
+    
+    async function getCMD(){
+      //http://localhost:5000/cmd?XAPIKEY=LAotO6ljsV7rPLiT&Device_id=T00000001
+      paramToSend = "cmd?XAPIKEY=LAotO6ljsV7rPLiT&Device_id=T00000001";
+      res = await callGetAPI(paramToSend, '等待回應'); 
+      //console.log(typeof res);
+      var result = JSON.parse(res);
+      $("#timeStamp").text("Timestamp: "+String(result.Timestamp));
+      $("#cmd").text("cmd: "+String(result.cmd));      
+      $("#cloudResponseMessage").text(res);      
+      
+    }
+ 
+    function callGetAPI(param, loadingMessage) {
+      return new Promise(function(resolve, reject) {       
+        var request = new XMLHttpRequest();
+        request.open('GET', apiSite +param, true);
+
+        request.onload = function() {
+          $.loading.end();
+          //console.log(this.response);
+
+          resolve(this.response);
+        }
+        // Send API request 
+        $.loading.start(loadingMessage);
+
+        request.send();    
+      });
+    }
+     
+    var dataToPost = {
+      "Timestamp":Date.now,
+      "status":"select_confirmed"       
+    }
+        
+    async function postData(dataToPost){
+      //http://localhost:5000/status?XAPIKEY=LAotO6ljsV7rPLiT&Device_id=T00000001
+      paramToSend = "status?XAPIKEY=LAotO6ljsV7rPLiT&Device_id=T00000001" 
+      res = await callPostAPI(paramToSend, dataToPost, '等待回應');      
+    }
+    
+    function callPostAPI(param, dataToPost, loadingMessage) {
+      return new Promise(function(resolve, reject) {       
+        var request = new XMLHttpRequest();   // new HttpRequest instance 
+        console.log(apiSite +param);
+        request.open("POST", apiSite +param, true);
+        request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+        request.onload = function() { console.log(this.response);}  
+
+        console.log(JSON.stringify(dataToPost));
+        request.send(JSON.stringify(dataToPost));  
+      });
+    }
+    
+    function powerToggle(){
+      console.log("powerToggle", powerIsOn);
+      
+      if (powerIsOn) {
+        // Power is on, go to power off
+        $("#powerStatusIcon").css("background-color", "black");
+      } else {
+        // Power 1s off, go to power on
+        $("#powerStatusIcon").css("background-color", "lawngreen");        
+      }
+      
+      powerIsOn = !powerIsOn;
+      
+    }
+        
+  </script>
+</body>
+
+</html>
