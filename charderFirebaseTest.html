@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>Charder uGym Test</title>
+
+  <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
+  <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans+TC&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  
+  <script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+</head>
+
+<body >
+   
+  <!-- Insert these scripts at the bottom of the HTML, but before you use any Firebase services -->
+  <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.12.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.12.0/firebase-firestore.js"></script>
+
+  <!-- If you enabled Analytics in your project, add the Firebase SDK for Analytics -->
+  <!--  analytic 功能先不用-->
+  <!--  <script src="https://www.gstatic.com/firebasejs/7.5.2/firebase-analytics.js"></script>-->
+
+  <!-- Add Firebase products that you want to use -->
+  <script src="https://www.gstatic.com/firebasejs/7.12.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.12.0/firebase-database.js"></script>
+  
+  <!-- 我們的 Firebase Operations 放在 js/firebase-ops.js -->
+  <script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyAgqVIJxctcKlcZM0x064AA_JSThAybYjQ",
+      authDomain: "bodycomposition-bb529.firebaseapp.com",
+      databaseURL: "https://bodycomposition-bb529.firebaseio.com",
+      projectId: "bodycomposition-bb529",
+      storageBucket: "bodycomposition-bb529.appspot.com",
+      messagingSenderId: "637082487544",
+      appId: "1:637082487544:web:5740bac4a749d427b4090d",
+      measurementId: "G-2CR82H0P3X"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);  
+    
+    //var db = firebase.firestore();
+    var database = firebase.database();
+    
+    firebase.auth().onAuthStateChanged(function (user) {
+      console.log(user);
+    });    
+  </script>
+
+
+  <script>        
+    // ========= 以下為方便  debug 的函式
+
+    function signIn() {
+      firebase.auth().signInWithEmailAndPassword("aaa@test.com", "aaaaaa").catch(function(error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        document.getElementById("loader").innerHTML = "Login Error";
+      });
+    }
+
+    function getCurrentUser() {
+      var user = firebase.auth().currentUser;
+      console.log(user.uid);
+
+    }
+
+    function signOut() {
+      firebase.auth().signOut();
+      console.log("logout");
+    }
+    
+    
+    var aa;
+    async function readDataBase(){
+//      await firebase.database().ref('客戶管理/會員資料').once('value')
+//        .then(function (snapshot) {
+//          result = snapshot.val();
+//          console.log(JSON.parse(result));
+//        })
+//        .catch(function(error) {
+//        console.log("member failed: " + error.message)
+//        });        
+//        
+//        console.log("member read done");      
+      
+      await firebase.database().ref('機器管理').once('value')
+        .then(function (snapshot) {
+          result = snapshot.val();
+          console.log(result);
+          aa=result;
+        })
+        .catch(function(error) {
+        console.log("機器管理 failed: " + error.message)
+        });        
+        
+        console.log("機器管理 read done"); 
+      
+    }
+ 
+    // 量測要求狀態及對應 command(for machine)
+    // 1. "等待機器回應"    ==> "select"   
+    // 2. "等待機器要求資料" ==> "user_info"
+    // 3. "等待啟動量測體重" ==> "start_weight_measurement"
+    // 4. 根據機器 POST 資料跟新 狀態更新
+    // 5. 量測完畢 機器 POST 量測資料及圖片
+    
+    
+    async function writeDataBase(){
+      
+      var 量測要求 =
+        // 機器會以 machine S/N 查詢，所以用 S/N 做 index
+        //  machineSN:     量測編號, timeStamp,     LINEId,  健身房名稱,  店面名稱,  status
+        {
+          "T00000001": ["00000001", 1585400008904, "U72Abe0c9c9d36e011c0e556bd2047819", "打鐵健身", "永和店", "等待機器回應"], 
+          "T00000002": ["00000002", 1585457000004, "U72Abe0c9c9d36e011c0e556bd2047819", "打鐵健身", "板橋店", "等待機器回應"]
+        }; 
+     
+      await database.ref('量測管理').set({
+        量測最後編號: "00000002",
+        量測要求: 量測要求,
+      }, function(error){
+           if (error) {
+             //console.log(error);
+             return 0;
+           }
+             console.log('Write to 量測管理 successful');
+      });     
+      
+      
+      var allReportIds =["00000001", "01000002"]; // 永和:00 開頭，板橋:01 開頭
+      var reportsByIds = {
+        //reportId : [ MachineSN, timestampStr, 結果]
+        "00000001" : ["T0000001", "11111111", "成功"],
+        "01000002" : ["T0000002", "22222222", "取消"],      
+      };      
+      await database.ref('量測紀錄').set({
+        allReportIds: allReportIds,
+        byReportIds:  reportsByIds,    
+      }, function(error){
+           if (error) {
+             //console.log(error);
+             return 0;
+           }
+             console.log('Write to 量測紀錄 successful');
+      }); 
+      
+      
+      var 健身房列表 =[
+        {"健身房名稱":"打鐵健身", "店面名稱":["永和店","板橋店"]}, 
+        {"健身房名稱":"未來健身", "店面名稱":["未來店"]},         
+      ];
+      await database.ref('客戶管理/健身房列表').set(
+        健身房列表, 
+        function(error){
+           if (error) {
+             //console.log(error);
+             return 0;
+           }
+             console.log('Write to 客戶管理/健身房列表 successful');
+      });      
+      
+      var 打鐵健身 = { 
+        "永和店":{"機器序號":"T00000001","Model":"MA801","APPVer":"V59","機器狀態":"離線", "狀態更新時間": 0},
+        "板橋店":{"機器序號":"T00000002","Model":"MA801","APPVer":"V59","機器狀態":"離線", "狀態更新時間": 0},
+      };
+      var 未來健身 = { 
+        "未來店":{"機器序號":"T99999999","Model":"N/A","APPVer":"N/A","機器狀態":"離線", "狀態更新時間": 0},
+    }
+      await database.ref('機器管理').set({
+        打鐵健身:打鐵健身,         
+        未來健身:未來健身,       
+      }, function(error){
+           if (error) {
+             //console.log(error);
+             return 0;
+           }
+             console.log('Write to 機器管理 successful');
+      });       
+      
+      
+    }    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+// 以下是 firestore    
+
+    function readFirebaseFirestore() {
+
+//      db.collection("MA801").get().then((querySnapshot) => {
+//        console.log(querySnapshot[0]);
+//        
+//          querySnapshot.forEach((doc) => {
+//            console.log(`${doc.id} => ${doc.data()}`);
+//            console.log(doc.id, doc.data());
+//          });
+//      }); 
+      
+      var collectionRef = db.collection("MA801").doc("SN00000001").collection("U00000001");      
+      //var docRef = db.collection("cities").doc("SF");
+      
+      collectionRef.doc("DOC00000001").get().then(function(doc) {
+          if (doc.exists) {
+              console.log("Document data:", doc.data());
+          } else {
+              // doc.data() will be undefined in this case
+              console.log("No such document!");
+          }
+      }).catch(function(error) {
+          console.log("Error getting document:", error);
+      });      
+
+    }
+
+
+    function writeDatabaseFirestore() {
+
+      var collectionRef = db.collection("MA801");
+
+      collectionRef.doc("SN00000001").set({
+          用戶數量: 2,
+          000000001: "U00000002",
+          000000002: "U00000001",
+        }).then(function(e){ 
+          if (e) {
+            console.log(e);
+          } else {
+            console.log("Write to database OK")
+          }
+        });
+      
+      var collectionRef = db.collection("MA801").doc("SN00000001").collection("U00000001");
+
+      collectionRef.doc("DOC00000001").set({
+          用戶編號: "U00000001",
+          LINE編號: "UXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX1",
+          文件編號: 1,
+          量測時間: 1584843229669, 
+          量測資料: "JSON 格式",
+          量測圖片: "Base64 encode",
+          量測圖片url: "imgur url" 
+        }).then(function(e){ 
+          if (e) {
+            console.log(e);
+          } else {
+            console.log("Write to database OK")
+          }
+        });
+      
+      collectionRef.doc("DOC00000002").set({
+          用戶編號: "U00000001",    
+          LINE編號: "UXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX1",        
+          文件編號: 2,        
+          量測時間: 1584843476713, 
+          量測資料: "JSON 格式",
+          量測圖片: "Base64 encode",
+          量測圖片url: "imgur url" 
+        }).then(function(e){ 
+          if (e) {
+            console.log(e);
+          } else {
+            console.log("Write to database OK")
+          }
+        });      
+
+      collectionRef = db.collection("MA801").doc("SN00000001").collection("U00000002");
+
+      collectionRef.doc("DOC00000003").set({
+          用戶編號: "U00000002",    
+          LINE編號: "UXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX2",        
+          文件編號: 3,        
+          量測時間: 1584843847775, 
+          量測資料: "JSON 格式",
+          量測圖片: "Base64 encode",
+          量測圖片url: "imgur url" 
+        }).then(function(e){ 
+          if (e) {
+            console.log(e);
+          } else {
+            console.log("Write to database3 OK")
+          }
+        });
+      
+      collectionRef.doc("DOC00000004").set({
+          用戶編號: "U00000002",         
+          LINE編號: "UXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX2",        
+          文件編號: 4,        
+          量測時間: 1584844011773, 
+          量測資料: "JSON 格式",
+          量測圖片: "Base64 encode",
+          量測圖片url: "imgur url" 
+        }).then(function(e){ 
+          if (e) {
+            console.log(e);
+          } else {
+            console.log("Write to database4 OK")
+          }
+        });      
+      
+    }
+    
+    function writeCitiesFirestore(){
+      
+      var citiesRef = db.collection("cities");
+
+      citiesRef.doc("SF").set({
+          name: "San Francisco", state: "CA", country: "USA",
+          capital: false, population: 860000,
+          regions: ["west_coast", "norcal"] });
+      citiesRef.doc("LA").set({
+          name: "Los Angeles", state: "CA", country: "USA",
+          capital: false, population: 3900000,
+          regions: ["west_coast", "socal"] });
+      citiesRef.doc("DC").set({
+          name: "Washington, D.C.", state: null, country: "USA",
+          capital: true, population: 680000,
+          regions: ["east_coast"] });
+      citiesRef.doc("TOK").set({
+          name: "Tokyo", state: null, country: "Japan",
+          capital: true, population: 9000000,
+          regions: ["kanto", "honshu"] });
+      citiesRef.doc("BJ").set({
+          name: "Beijing", state: null, country: "China",
+          capital: true, population: 21500000,
+          regions: ["jingjinji", "hebei"] });
+      
+    }
+    
+    function queryForCapitalFirestore() {
+//      db.collection("cities").where("capital", "==", true)
+//        .get()
+//        .then(function(querySnapshot) {
+//            querySnapshot.forEach(function(doc) {
+//                // doc.data() is never undefined for query doc snapshots
+//                console.log(doc.id, " => ", doc.data());
+//            });
+//        })
+//        .catch(function(error) {
+//            console.log("Error getting documents: ", error);
+//        });
+      
+      var collectionRef = db.collection("MA801").doc("SN00000001").collection("U00000001");
+      collectionRef.where("文件編號", "==", 1)
+          .get()
+          .then(function(querySnapshot) {
+              querySnapshot.forEach(function(doc) {
+                  // doc.data() is never undefined for query doc snapshots
+                  console.log(doc.id, " => ", doc.data());
+              });
+          })
+          .catch(function(error) {
+              console.log("Error getting documents: ", error);
+          });
+      
+    }
+
+  </script>
+
+</body>
+
+</html>

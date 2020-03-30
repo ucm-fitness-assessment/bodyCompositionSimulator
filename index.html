@@ -15,8 +15,6 @@
   <link href="https://kendo.cdn.telerik.com/2020.1.114/styles/kendo.common-nova.min.css" rel="stylesheet" />
   <link href="https://kendo.cdn.telerik.com/2020.1.114/styles/kendo.nova.min.css" rel="stylesheet" />
   <link href="https://kendo.cdn.telerik.com/2020.1.114/styles/kendo.mobile.nova.min.css" rel="stylesheet" />   
-
-  <link href="css/courseStyle.css" rel="stylesheet" />
      
   <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
   <script src="https://kendo.cdn.telerik.com/2020.1.114/js/kendo.all.min.js"></script>
@@ -70,8 +68,9 @@
   </div>
   
   <div id="buttons" style="margin-left:53%">
-    <button width="100px" style="font-size:18px; margin-top:10px;" onclick="getCMD()">Get CMD</button><br><br>    
+    <button width="100px" style="font-size:18px; margin-top:10px;" onclick="getCMD()">Get select CMD</button><br>    
     <button style="font-size:18px; margin-top:10px;" onclick="postStatus('select_confirmed')" >POST select_confirmed</button><br>
+    <button width="100px" style="font-size:18px; margin-top:10px;" onclick="getCMD()">Get user_info CMD</button><br>   
     <button style="font-size:18px; margin-top:10px;" onclick="postStatus('user_info_confirmed')" >POST user_info_confirmed</button><br>
     <button style="font-size:18px; margin-top:10px;" onclick="postStatus('logged_in')">POST logged_in</button><br> 
     <button style="font-size:18px; margin-top:10px;" onclick="postStatus('start_weight_measurement')">POST start_weight_measurement</button><br>
@@ -126,7 +125,7 @@
       //http://localhost:5000/cmd?XAPIKEY=LAotO6ljsV7rPLiT&Device_id=T00000001
       //paramToSend = "cmd?XAPIKEY=LAotO6ljsV7rPLiT&Device_id=T00000001";
       paramToSend = "cmd?XAPIKEY=LAotO6ljsV7rPLiT&Device_id="+$("#machineSN_select").val();
-      res = await callGetAPI(paramToSend, '等待回應'); 
+      res = await callGetAPI(paramToSend); 
       //console.log(typeof res);
       var result = JSON.parse(res);
       $("#get_timeStamp").text("Timestamp: "+String(result.Timestamp));
@@ -135,7 +134,7 @@
       
     }
  
-    function callGetAPI(param, loadingMessage) {
+    function callGetAPI(param) {
       return new Promise(function(resolve, reject) {       
         var request = new XMLHttpRequest();
         request.open('GET', apiSite +param, true);
@@ -225,20 +224,21 @@
       
     }
      
-    async function postData(dataToPost){
+    var postResponse;
+    async function callPostData(dataToPost){
       //http://localhost:5000/status?XAPIKEY=LAotO6ljsV7rPLiT&Device_id=T00000001
-      paramToSend = "status?XAPIKEY=LAotO6ljsV7rPLiT&Device_id=T00000001" 
-      res = await callPostAPI(paramToSend, dataToPost, '等待回應');      
+      paramToSend = "status?XAPIKEY=LAotO6ljsV7rPLiT&Device_id="+$("#machineSN_select").val(); 
+      res = await callPostAPI(paramToSend, dataToPost);      
     }
     
-    function callPostAPI(param, dataToPost, loadingMessage) {
+    function callPostAPI(param, dataToPost) {
       return new Promise(function(resolve, reject) {       
         var request = new XMLHttpRequest();   // new HttpRequest instance 
         console.log(apiSite +param);
         request.open("POST", apiSite +param, true);
         request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 
-        request.onload = function() { console.log(this.response);}  
+        request.onload = function() { console.log(this.response); postResponse = "Response:"+this.response; }  
 
         console.log(JSON.stringify(dataToPost));
         request.send(JSON.stringify(dataToPost));  
@@ -252,7 +252,8 @@
         $("#powerStatusIcon").css("background-color", "black");
         $("#machineType").text("");
       } else {
-        postStatus("power_on")
+        postStatus("power_on"+$("#machineSN_select").val());
+        
         $("#powerStatusIcon").css("background-color", "lawngreen");  
         console.log("power_on"+$("#machineSN_select").val());
         var postData = dataToPost["power_on"+$("#machineSN_select").val()];
@@ -267,18 +268,20 @@
       console.log(status);
       
       var postData = dataToPost[status];    
-      // console.log(postData);
+      console.log(postData);
       $("#post_timeStamp").text(postData.Timestamp);
       $("#post_status").text("status: "+String(postData.status));      
-      //$("#postCloudResponse").text(res);      
+      
+      callPostData(postData);
+      $("#postCloudResponse").text(postResponse);      
             
       
     }
     
     function 自動化執行(){
       getCMD(); // get cmd: select
-      
       postStatus('select_confirmed');
+      getCMD(); // get cmd: user_info      
       postStatus('user_info_confirmed');
       postStatus('logged_in'); 
       postStatus('start_weight_measurement');
