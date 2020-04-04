@@ -11,15 +11,8 @@
 
   <!--  using Noto Sans TC is added by Paul Kang-->
   <link href="https://fonts.googleapis.com/css?family=Noto+Sans+TC&display=swap" rel="stylesheet">
-
-  <link href="https://kendo.cdn.telerik.com/2020.1.114/styles/kendo.common-nova.min.css" rel="stylesheet" />
-  <link href="https://kendo.cdn.telerik.com/2020.1.114/styles/kendo.nova.min.css" rel="stylesheet" />
-  <link href="https://kendo.cdn.telerik.com/2020.1.114/styles/kendo.mobile.nova.min.css" rel="stylesheet" />   
-     
-  <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-  <script src="https://kendo.cdn.telerik.com/2020.1.114/js/kendo.all.min.js"></script>
-  <script src="https://kendo.cdn.telerik.com/2020.1.114/js/kendo.timezones.min.js"></script>
   
+  <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 </head>
 
 <body id="body">
@@ -33,7 +26,7 @@
   <h2 class="NotoSansFont" style="text-align:center">身體組分析儀 模擬機</h2>
   
   <div style="width:50%">
-  <select id="machineSN_select" style="font-size:18px;  margin-top: 2px; height:35px" class="NotoSansFont">
+  <select id="machineSN_select" style="font-size:18px;  margin-top: 2px; height:35px" class="NotoSansFont" onchange="changeMachine()">
     <option value="T00000001">打鐵 永和店 T00000001</option>
     <option value="T00000002">打鐵 板橋店 T00000002</option>   
     <option value="T99999999">未來 未來店 T99999999</option>      
@@ -83,6 +76,9 @@
     <button class="NotoSansFont" style="font-size:18px; margin-top:10px;" onclick="自動化執行()">自動化執行</button>
           
   </div>
+  
+  <br><br>
+  <p id="machineStatus" class="NotoSansFont">機器狀態: </p>
  
   <!-- The core Firebase JS SDK is always required and must be listed first -->
   <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-app.js"></script>
@@ -103,16 +99,16 @@
     var displayName, userId, pictureUrl;
     var inputError = false;
     
-    var 預設常用健身房 = "永和店";
-    
-    var 店面名稱=["永和店", "板橋店", "土城店", "錦州店",
-                 "三重店", "松山店", "府中店"                 
-                ]; // 測試用，之後從 API 取得
-
-    var 機器序號=["T00000001", "T00000002", "T00000003", "T00000004",
-                 "T00000005", "T00000006", "T00000007", "T00000008",
-                 "T00000009"                 
-                ]; // 測試用，之後從 API 取得      
+//    var 預設常用健身房 = "永和店";
+//    
+//    var 店面名稱=["永和店", "板橋店", "土城店", "錦州店",
+//                 "三重店", "松山店", "府中店"                 
+//                ]; // 測試用，之後從 API 取得
+//
+//    var 機器序號=["T00000001", "T00000002", "T00000003", "T00000004",
+//                 "T00000005", "T00000006", "T00000007", "T00000008",
+//                 "T00000009"                 
+//                ]; // 測試用，之後從 API 取得      
     
     
     var powerIsOn =false;
@@ -122,6 +118,13 @@
     var paramToSend;   
     
     async function getCMD(){
+      if (!powerIsOn) {
+        console.log("Power is not on, tuen on power first");
+        //$("#machineStatus").text("請先打開機器電源");
+        alert("請先打開機器電源");
+        return;
+      }
+      
       //http://localhost:5000/cmd?XAPIKEY=LAotO6ljsV7rPLiT&Device_id=T00000001
       //paramToSend = "cmd?XAPIKEY=LAotO6ljsV7rPLiT&Device_id=T00000001";
       paramToSend = "cmd?XAPIKEY=LAotO6ljsV7rPLiT&Device_id="+$("#machineSN_select").val();
@@ -134,7 +137,7 @@
       
     }
  
-    function callGetAPI(param) {
+    function callGetAPI(param) {      
       return new Promise(function(resolve, reject) {       
         var request = new XMLHttpRequest();
         request.open('GET', apiSite +param, true);
@@ -238,7 +241,11 @@
         request.open("POST", apiSite +param, true);
         request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 
-        request.onload = function() { console.log(this.response); postResponse = "Response:"+this.response; }  
+        request.onload = function() { 
+          console.log(this.response); 
+          postResponse = "Response:"+this.response; 
+          
+        }  
 
         console.log(JSON.stringify(dataToPost));
         request.send(JSON.stringify(dataToPost));  
@@ -251,21 +258,32 @@
       if (powerIsOn) {
         $("#powerStatusIcon").css("background-color", "black");
         $("#machineType").text("");
+        powerIsOn = false;
       } else {
+        powerIsOn = true;
         postStatus("power_on"+$("#machineSN_select").val());
         
         $("#powerStatusIcon").css("background-color", "lawngreen");  
         console.log("power_on"+$("#machineSN_select").val());
         var postData = dataToPost["power_on"+$("#machineSN_select").val()];
         $("#machineType").text(postData.Model);
-      }
-      
-      powerIsOn = !powerIsOn;
-      
+      }      
+    }
+    
+    function changeMachine(){
+      console.log("changeMachine");
+      if (powerIsOn) powerToggle();
     }
     
     function postStatus(status){
+      if (!powerIsOn) {
+        console.log("Power is not on, tuen on power first");
+        //$("#machineStatus").text("請先打開機器電源");
+        alert("請先打開機器電源");
+        return;
+      }      
       console.log(status);
+      $("#machineStatus").text(status);
       
       var postData = dataToPost[status];    
       console.log(postData);
@@ -278,17 +296,23 @@
       
     }
     
+    function postResultData() {
+      var smallGifBase64 ="R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
+      
+    }
+    
     function 自動化執行(){
       getCMD(); // get cmd: select
-      postStatus('select_confirmed');
-      getCMD(); // get cmd: user_info      
-      postStatus('user_info_confirmed');
-      postStatus('logged_in'); 
-      postStatus('start_weight_measurement');
-      postStatus('weight_measurement_done');
-      postStatus('check_electrodes');    
-      postStatus('check_electrodes_done');  
-      postStatus('bodycomposition_analysis_results'); 
+      
+      setTimeout( function() {postStatus('select_confirmed')}, 1000);
+      setTimeout( function() {getCMD()}, 2000); // get cmd: user_info      
+      setTimeout( function() {postStatus('user_info_confirmed')}, 3000);
+      setTimeout( function() {postStatus('logged_in')}, 4000); 
+      setTimeout( function() {postStatus('start_weight_measurement')}, 4500);
+      setTimeout( function() {postStatus('weight_measurement_done')}, 6000);
+      setTimeout( function() {postStatus('check_electrodes')}, 7000);    
+      setTimeout( function() {postStatus('check_electrodes_done')}, 8000);  
+      setTimeout( function() {postStatus('bodycomposition_analysis_results')}, 9000); 
     }
         
   </script>

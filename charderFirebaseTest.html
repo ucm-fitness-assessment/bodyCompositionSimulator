@@ -13,10 +13,14 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   
   <script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+  <script src="samplePicBase64.js"></script>
+  <script src="sampleData.js"></script>  
 </head>
 
 <body >
-   
+  
+  <button onclick="writeDataBase()" > reset database</button>
+  
   <!-- Insert these scripts at the bottom of the HTML, but before you use any Firebase services -->
   <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
   <script src="https://www.gstatic.com/firebasejs/7.12.0/firebase-app.js"></script>
@@ -175,7 +179,7 @@
       };
       var 未來健身 = { 
         "未來店":{"機器序號":"T99999999","Model":"N/A","APPVer":"N/A","機器狀態":"離線", "狀態更新時間": 0},
-    }
+      }
       await database.ref('機器管理').set({
         打鐵健身:打鐵健身,         
         未來健身:未來健身,       
@@ -190,6 +194,38 @@
       
     }    
     
+    
+    function uploadToImgur(){
+      var myHeaders = new Headers();
+      
+      // 匿名
+      //myHeaders.append("Authorization", "Client-ID e7541b4fd4257ca");
+
+      // 傳到 CharderUgym 帳號
+      myHeaders.append("Authorization", "Bearer caea1ac4547912033e6c095a4ab5f87a38572228");
+      
+      var formdata = new FormData();
+      
+      // sample_pic_data_base64 定義於 samplePicBase64，大檔案
+      formdata.append("image", sample_pic_data_base64);
+      
+      // var smallGifBase64 ="R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
+      //formdata.append("image", smallGifBase64);      
+
+      var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: formdata,
+        redirect: 'follow'
+      };
+
+      fetch("https://api.imgur.com/3/image", requestOptions)
+        .then(response => response.text())
+        .then(result => { 
+          console.log(JSON.parse(result));
+        })
+        .catch(error => console.log('error', error));      
+    }
     
     
     
