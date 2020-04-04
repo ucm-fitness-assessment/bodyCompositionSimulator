@@ -13,6 +13,9 @@
   <link href="https://fonts.googleapis.com/css?family=Noto+Sans+TC&display=swap" rel="stylesheet">
   
   <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+  
+  <script src="sampleData.js"></script>
+  <script src="samplePicBase64.js"></script>
 </head>
 
 <body id="body">
@@ -84,7 +87,7 @@
   <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-app.js"></script>
  
   <script>
-    var useLocalAPIs = true;
+    var useLocalAPIs = false;
   </script>
 <!--
   <script src="3-controllers/functions.js"></script>
@@ -113,8 +116,12 @@
     
     var powerIsOn =false;
     var res;
-    var apiSite="http://localhost:5000/";    
-    //var apiSite="https://charder.herokuapp.com/";
+    if (useLocalAPIs) {
+      var apiSite="http://localhost:5000/";
+    } else {
+      var apiSite="https://charder.herokuapp.com/";
+    }
+    
     var paramToSend;   
     
     async function getCMD(){
@@ -222,7 +229,9 @@
       
       "bodycomposition_analysis_results": {
         "Timestamp":Date.now(),
-        "status":"bodycomposition_analysis_results"
+        "status":"bodycomposition_analysis_results",
+        "data": sample_data,
+        "picture": sample_pic_data_base64, 
       }, 
       
     }
@@ -293,11 +302,6 @@
       callPostData(postData);
       $("#postCloudResponse").text(postResponse);      
             
-      
-    }
-    
-    function postResultData() {
-      var smallGifBase64 ="R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
       
     }
     
