@@ -87,7 +87,7 @@
   <script src="https://www.gstatic.com/firebasejs/7.13.1/firebase-app.js"></script>
  
   <script>
-    var useLocalAPIs = false;
+    var useLocalAPIs = true;
   </script>
 <!--
   <script src="3-controllers/functions.js"></script>
@@ -246,7 +246,7 @@
     function callPostAPI(param, dataToPost) {
       return new Promise(function(resolve, reject) {       
         var request = new XMLHttpRequest();   // new HttpRequest instance 
-        console.log(apiSite +param);
+        //console.log(apiSite +param);
         request.open("POST", apiSite +param, true);
         request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 
