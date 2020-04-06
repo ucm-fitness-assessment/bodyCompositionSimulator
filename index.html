@@ -76,6 +76,8 @@
     <button style="font-size:18px; margin-top:10px;" onclick="postStatus('start_bodycomposition_analysis')">POST start_bodycomposition_analysis</button><br>
     <button style="font-size:18px; margin-top:10px;" onclick="postStatus('bodycomposition_analysis_results')">POST bodycomposition_analysis_results</button><br><br>
     
+    <button style="font-size:18px; margin-top:10px;" onclick="postStatus('cancel_confirmed')">POST cancel_confirmed</button><br><br>    
+    
     <button class="NotoSansFont" style="font-size:18px; margin-top:10px;" onclick="自動化執行()">自動化執行</button>
           
   </div>
@@ -233,6 +235,11 @@
         "data": sample_data,
         "picture": sample_pic_data_base64, 
       }, 
+      
+      "cancel_confirmed": {
+        "Timestamp":Date.now(),
+        "status":"cancel_confirmed"
+      },      
       
     }
      
