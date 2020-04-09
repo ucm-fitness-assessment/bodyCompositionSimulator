@@ -1,12 +1,8 @@
-<!--https://demos.telerik.com/kendo-ui/content/shared/js/mobile-examples.js-->
-<!--?displayName=小華&userId=U722be0c9c9d36e011c0e556bd2047819&pictureUrl=www.google.com-->
-<!--?displayName=小A&userId=U72Abe0c9c9d36e011c0e556bd2047819&pictureUrl=https://media.tractorsupply.com/is/image/TractorSupplyCompany/1305371?$456$-->
-    
 <!DOCTYPE html>
 <html>
 
 <head>
-  <title></title>
+  <title>模擬器</title>
   <meta name="msapplication-tap-highlight" content="no" />
 
   <!--  using Noto Sans TC is added by Paul Kang-->
@@ -31,7 +27,12 @@
   <div style="width:50%">
   <select id="machineSN_select" style="font-size:18px;  margin-top: 2px; height:35px" class="NotoSansFont" onchange="changeMachine()">
     <option value="T00000001">打鐵 永和店 T00000001</option>
-    <option value="T00000002">打鐵 板橋店 T00000002</option>   
+    <option value="T00000002">打鐵 板橋店 T00000002</option>  
+    <option value="T00000001">打鐵 土城店 T00000003</option>
+    <option value="T00000002">打鐵 錦州店 T00000004</option>  
+    <option value="T00000002">打鐵 三重店 T00000005</option>  
+    <option value="T00000001">打鐵 松山店 T00000006</option>
+    <option value="T00000002">打鐵 府中店 T00000007</option>         
     <option value="T99999999">未來 未來店 T99999999</option>      
   </select>
         
@@ -103,20 +104,7 @@
     var inputParamString = location.search;
     var inputParam = inputParamString.split("&");
     var displayName, userId, pictureUrl;
-    var inputError = false;
-    
-//    var 預設常用健身房 = "永和店";
-//    
-//    var 店面名稱=["永和店", "板橋店", "土城店", "錦州店",
-//                 "三重店", "松山店", "府中店"                 
-//                ]; // 測試用，之後從 API 取得
-//
-//    var 機器序號=["T00000001", "T00000002", "T00000003", "T00000004",
-//                 "T00000005", "T00000006", "T00000007", "T00000008",
-//                 "T00000009"                 
-//                ]; // 測試用，之後從 API 取得      
-    
-    
+    var inputError = false;    
     var powerIsOn =false;
     var res;
     if (useLocalAPIs) {
@@ -324,7 +312,7 @@
       setTimeout( function() {getCMD()}, 2000); // get cmd: user_info      
       setTimeout( function() {postStatus('user_info_confirmed')}, 3000);
       setTimeout( function() {postStatus('logged_in')}, 4000); 
-      setTimeout( function() {postStatus('start_weight_measurement')}, 4500);
+      setTimeout( function() {postStatus('start_weight_measurement')}, 5000);
       setTimeout( function() {postStatus('weight_measurement_done')}, 6000);
       setTimeout( function() {postStatus('check_electrodes')}, 7000);    
       setTimeout( function() {postStatus('check_electrodes_done')}, 8000);  
