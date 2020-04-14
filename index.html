@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>模擬器</title>
+  <title>模擬器 V0.2</title>
   <meta name="msapplication-tap-highlight" content="no" />
 
   <!--  using Noto Sans TC is added by Paul Kang-->
@@ -12,6 +12,8 @@
   
   <script src="sampleData.js"></script>
   <script src="samplePicBase64.js"></script>
+  <script src="sampleData_1.js"></script>  
+  <script src="samplePicBase64_1.js"></script>  
 </head>
 
 <body id="body">
@@ -22,13 +24,13 @@
     }
   </style>
   
-  <h2 class="NotoSansFont" style="text-align:center">身體組分析儀 模擬機</h2>
+  <h2 class="NotoSansFont" style="text-align:center">身體組分析儀 模擬機 V0.2</h2>
   
   <div style="width:50%">
   <select id="machineSN_select" style="font-size:18px;  margin-top: 2px; height:35px" class="NotoSansFont" onchange="changeMachine()">
     <option value="T18000001">打鐵 永和店 T18000001</option>
 <!--
-    <option value="T00000002">打鐵 板橋店 T00000002</option>  
+    <option value="T00000002">打鐵 林森店 T00000002</option>  
     <option value="T00000001">打鐵 土城店 T00000003</option>
     <option value="T00000002">打鐵 錦州店 T00000004</option>  
     <option value="T00000002">打鐵 三重店 T00000005</option>  
@@ -41,7 +43,7 @@
     <button class="NotoSansFont" style="font-size:18px; float:right " onclick="powerToggle()">Power</button><br><br> 
   </div>
   
-  <div class="NotoSansFont" id="cloudMsgDiv" style="width:50%; margin:0 ; height:500px;background-color:gray;color:white; padding:5px; float:left">
+  <div class="NotoSansFont" id="cloudMsgDiv" style="width:50%; margin:0 ; height:550px;background-color:gray;color:white; padding:5px; float:left">
    
     <span id="powerStatusIcon" style="width:20px;height:20px; background-color:black; float:right;border-radius:10px"></span>
     <span id="powerStatus" style="float:right;margin-right:10px">POWER OFF</span><br>
@@ -226,7 +228,7 @@
       "bodycomposition_analysis_results": {
         "Timestamp":Date.now(),
         "status":"bodycomposition_analysis_results",
-        "data": sample_data,
+        "data": sample_data_1,
         "picture": sample_pic_data_base64, 
       }, 
       
