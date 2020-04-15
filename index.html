@@ -260,6 +260,7 @@
         request.onload = function() { 
           console.log(this.response); 
           postResponse = "Response:"+this.response; 
+          $("#postCloudResponse").text(postResponse); 
           
         }  
 
@@ -291,7 +292,7 @@
       if (powerIsOn) powerToggle();
     }
     
-    function postStatus(status){
+    async function postStatus(status){
       if (!powerIsOn) {
         console.log("Power is not on, tuen on power first");
         //$("#machineStatus").text("請先打開機器電源");
@@ -306,24 +307,24 @@
       $("#post_timeStamp").text(postData.Timestamp);
       $("#post_status").text("status: "+String(postData.status));      
       
-      callPostData(postData);
-      $("#postCloudResponse").text(postResponse);      
+      await callPostData(postData);
+      //$("#postCloudResponse").text(postResponse);      
             
       
     }
     
-    function 自動化執行(){
-      getCMD(); // get cmd: select
+    async function 自動化執行(){
+      await getCMD(); // get cmd: select
       
-      setTimeout( function() {postStatus('select_confirmed')}, 1000);
-      setTimeout( function() {getCMD()}, 2000); // get cmd: user_info      
-      setTimeout( function() {postStatus('user_info_confirmed')}, 3000);
-      setTimeout( function() {postStatus('logged_in')}, 4000); 
-      setTimeout( function() {postStatus('start_weight_measurement')}, 5000);
-      setTimeout( function() {postStatus('weight_measurement_done')}, 6000);
-      setTimeout( function() {postStatus('check_electrodes')}, 7000);    
-      setTimeout( function() {postStatus('check_electrodes_done')}, 8000);  
-      setTimeout( function() {postStatus('bodycomposition_analysis_results')}, 9000); 
+      setTimeout( async function() {await postStatus('select_confirmed')}, 1000);
+      setTimeout( async function() {await getCMD()}, 2000); // get cmd: user_info      
+      setTimeout( async function() {await postStatus('user_info_confirmed')}, 3000);
+      setTimeout( async function() {await postStatus('logged_in')}, 4000); 
+      setTimeout( async function() {await postStatus('start_weight_measurement')}, 5000);
+      setTimeout( async function() {await postStatus('weight_measurement_done')}, 6000);
+      setTimeout( async function() {await postStatus('check_electrodes')}, 7000);    
+      setTimeout( async function() {await postStatus('check_electrodes_done')}, 8000);  
+      setTimeout( async function() {await postStatus('bodycomposition_analysis_results')}, 9000); 
     }
         
   </script>
