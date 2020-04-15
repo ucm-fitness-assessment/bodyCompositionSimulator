@@ -1,371 +1,186 @@
 var sample_data_1 = {
-
-        "AC": 66.4,
-
-        "AMC": 22.1,
-
+        "AC": 97.2,
+        "AMC": 26.5,
         "APP_Version": "u.1.0.0.53",
-
-        "Age": 20.66,
-
-        "BCM": 25.2,
-
-        "BIVA_X": -1.1,
-
-        "BIVA_Y": -3.1,
-
-        "BMC": 2.3,
-
-        "BMCP": 5.2,
-
-        "BMI": 17.5,
-
+        "Age": 20.67,
+        "BCM": 36.9,
+        "BIVA_X": 2.8,
+        "BIVA_Y": -3.6,
+        "BMI": 27.6,
         "BMINRL": 18.5,
-
         "BMINRU": 24.9,
-
         "BMIOU": 29.9,
-
         "BMITRL": 10.0,
-
         "BMITRU": 55.0,
-
-        "BMR": 1228.0,
-
+        "BMR": 1618.0,
         "Device_IP": "192.168.50.123",
-
         "Device_Mac": "40:9F:38:4E:C8:DB",
-
-        "ECW": 11.6,
-
-        "ECWL": 10.4,
-
-        "ECWP": 26.1,
-
-        "ECWU": 12.8,
-
-        "EI": 0.414,
-
+        "ECW": 16.6,
+        "ECW_NL": 15.2,
+        "ECW_NU": 18.5,
+        "ECW_Percent": 18.6,
+        "EI": 0.409,
         "Ethnic": 0,
-
-        "FFM": 39.8,
-
-        "FFM_Index": 15.5,
-
-        "FM": 4.9,
-
-        "FMNL": 8.0,
-
-        "FMNRL": 80.0,
-
-        "FMNRU": 160.0,
-
-        "FMNU": 12.5,
-
-        "FMTRL": 50.0,
-
-        "FMTRU": 400.0,
-
-        "FM_Index": 1.9,
-
-        "Gender": 0,
-
-        "HS": 81.3,
-
-        "Height": 160.0,
-
-        "ICW": 16.5,
-
-        "ICWL": 17.0,
-
-        "ICWP": 36.9,
-
-        "ICWU": 20.8,
-
-        "ILA100": 323.6,
-
+        "FFM": 57.8,
+        "FFM_Index": 17.8,
+        "FM": 31.5,
+        "FMNL": 8.9,
+        "FMNRL_Percent": 80.0,
+        "FMNRU_Percent": 160.0,
+        "FMNU": 17.9,
+        "FMTRL_Percent": 50.0,
+        "FMTRU_Percent": 400.0,
+        "FM_Index": 9.7,
+        "Gender": 1,
+        "HS": 58.1,
+        "Height": 180.0,
+        "ICW": 24.0,
+        "ICW_NL": 24.7,
+        "ICW_NU": 30.2,
+        "ICW_Percent": 26.9,
+        "ILA100": 326.6,
         "ILA20": 327.3,
-
-        "ILA250": 310.2,
-
-        "ILA5": 327.4,
-
-        "ILA50": 326.2,
-
-        "ILL100": 265.8,
-
+        "ILA250": 324.1,
+        "ILA5": 327.3,
+        "ILA50": 327.0,
+        "ILL100": 266.2,
         "ILL20": 269.0,
-
-        "ILL250": 253.8,
-
+        "ILL250": 254.8,
         "ILL5": 269.1,
-
-        "ILL50": 268.1,
-
-        "ILW100": 625.1,
-
-        "ILW20": 631.5,
-
-        "ILW250": 602.9,
-
-        "ILW5": 631.8,
-
-        "ILW50": 629.8,
-
-        "IRA100": 322.9,
-
-        "IRA20": 329.3,
-
-        "IRA250": 302.5,
-
+        "ILL50": 268.2,
+        "ILW100": 627.3,
+        "ILW20": 631.6,
+        "ILW250": 613.4,
+        "ILW5": 631.7,
+        "ILW50": 630.4,
+        "IRA100": 323.2,
+        "IRA20": 329.4,
+        "IRA250": 303.5,
         "IRA5": 329.5,
-
-        "IRA50": 327.6,
-
-        "IRL100": 266.8,
-
-        "IRL20": 268.7,
-
-        "IRL250": 258.5,
-
-        "IRL5": 268.9,
-
-        "IRL50": 268.1,
-
-        "IRW100": 624.4,
-
-        "IRW20": 633.1,
-
-        "IRW250": 597.2,
-
-        "IRW5": 633.5,
-
-        "IRW50": 630.8,
-
-        "LAC": 23.3,
-
-        "LAFM": 0.3,
-
-        "LAFMNRL": 0.3,
-
+        "IRA50": 327.7,
+        "IRL100": 268.0,
+        "IRL20": 269.0,
+        "IRL250": 263.2,
+        "IRL5": 269.0,
+        "IRL50": 268.6,
+        "IRW100": 625.0,
+        "IRW20": 633.3,
+        "IRW250": 599.2,
+        "IRW5": 633.7,
+        "IRW50": 631.0,
+        "LAC": 33.1,
+        "LAFM": 1.4,
+        "LAFMNRL": 0.4,
         "LAFMNRU": 0.5,
-
-        "LALM": 2.0,
-
-        "LALMNRL": 1.6,
-
-        "LALMNRU": 2.4,
-
+        "LALM": 3.3,
+        "LALMNRL": 2.7,
+        "LALMNRU": 4.0,
         "LALM_Sco": 1.5,
-
-        "LHGF": 206.0,
-
-        "LHGFL": 185.0,
-
-        "LHGFU": 226.0,
-
-        "LLFM": 1.4,
-
-        "LLFMNRL": 1.6,
-
-        "LLFMNRU": 2.3,
-
-        "LLLM": 5.7,
-
-        "LLLMNRL": 5.7,
-
-        "LLLMNRU": 8.6,
-
-        "LLLM_Sco": 1.0,
-
-        "LM": 37.4,
-
-        "LM_Sco": 1.3,
-
-        "MineralL": 1.5,
-
-        "MineralU": 2.5,
-
+        "LHGF": 440.0,
+        "LHGFL": 396.0,
+        "LHGFU": 484.0,
+        "LLFM": 5.0,
+        "LLFMNRL": 1.7,
+        "LLFMNRU": 2.6,
+        "LLLM": 8.7,
+        "LLLMNRL": 8.1,
+        "LLLMNRU": 12.1,
+        "LLLM_Sco": 1.2,
+        "LM": 54.5,
+        "LM_Sco": 1.4,
+        "Mineral": 3.3,
+        "Mineral_NL": 2.9,
+        "Mineral_NU": 5.0,
+        "Mineral_Percent": 3.7,
         "Model": "MA801",
-
-        "PBF": 11.1,
-
-        "PBFNRL": 18.0,
-
-        "PBFNRU": 28.0,
-
-        "PBFTRL": 8.0,
-
+        "PBF": 35.2,
+        "PBFNRL": 10.0,
+        "PBFNRU": 20.0,
+        "PBFTRL": 2.0,
         "PBFTRU": 60.0,
-
-        "PM": 9.3,
-
-        "PMP": 0.0,
-
-        "PhLA100": 7.7,
-
-        "PhLA20": 1.3,
-
-        "PhLA250": 16.7,
-
-        "PhLA5": -0.0,
-
-        "PhLA50": 3.8,
-
-        "PhLL100": 8.7,
-
+        "PM": 13.9,
+        "PhLA100": 1.1,
+        "PhLA20": 0.1,
+        "PhLA250": 2.6,
+        "PhLA5": 0.1,
+        "PhLA50": 0.4,
+        "PhLL100": 8.8,
         "PhLL20": 1.6,
-
-        "PhLL250": 18.6,
-
+        "PhLL250": 18.9,
         "PhLL5": 0.2,
-
         "PhLL50": 4.4,
-
-        "PhLW100": 6.8,
-
-        "PhLW20": 0.8,
-
-        "PhLW250": 15.1,
-
+        "PhLW100": 3.3,
+        "PhLW20": 0.1,
+        "PhLW250": 7.3,
         "PhLW5": 0.1,
-
-        "PhLW50": 3.1,
-
-        "PhRA100": 11.0,
-
+        "PhLW50": 1.3,
+        "PhRA100": 11.1,
         "PhRA20": 2.0,
-
-        "PhRA250": 23.2,
-
-        "PhRA5": 0.1,
-
+        "PhRA250": 23.5,
+        "PhRA5": 0.2,
         "PhRA50": 5.5,
-
-        "PhRL100": 5.9,
-
-        "PhRL20": 1.1,
-
-        "PhRL250": 12.8,
-
-        "PhRL5": 0.1,
-
-        "PhRL50": 2.9,
-
-        "PhRW100": 7.3,
-
-        "PhRW20": 1.0,
-
-        "PhRW250": 15.8,
-
+        "PhRL100": 3.1,
+        "PhRL20": 0.5,
+        "PhRL250": 6.9,
+        "PhRL5": 0.01,
+        "PhRL50": 1.5,
+        "PhRW100": 6.1,
+        "PhRW20": 0.7,
+        "PhRW250": 13.0,
         "PhRW5": 0.1,
-
-        "PhRW50": 3.4,
-
-        "ProteinL": 6.8,
-
-        "ProteinU": 8.4,
-
-        "RAC": 22.0,
-
-        "RAFM": 0.3,
-
-        "RAFMNRL": 0.3,
-
+        "PhRW50": 2.7,
+        "Protein_NL": 10.1,
+        "Protein_NU": 14.5,
+        "Proteint_Percent": 15.6,
+        "RAC": 31.3,
+        "RAFM": 1.4,
+        "RAFMNRL": 0.4,
         "RAFMNRU": 0.5,
-
-        "RALM": 2.0,
-
-        "RALMNRL": 1.6,
-
-        "RALMNRU": 2.4,
-
+        "RALM": 3.3,
+        "RALMNRL": 2.7,
+        "RALMNRU": 4.0,
         "RALM_Sco": 1.5,
-
-        "RHGF": 227.0,
-
-        "RHGFL": 205.0,
-
-        "RHGFU": 250.0,
-
-        "RLFM": 1.5,
-
-        "RLFMNRL": 1.6,
-
-        "RLFMNRU": 2.3,
-
-        "RLLM": 5.9,
-
-        "RLLMNRL": 5.7,
-
-        "RLLMNRU": 8.6,
-
-        "RLLM_Sco": 1.1,
-
-        "Report_Date": "2020-04-13 17:18:00",
-
-        "SAT": 43.3,
-
-        "SMM": 21.7,
-
-        "SMMNRL": 90.0,
-
-        "SMMNRU": 110.0,
-
-        "SMMTRL": 60.0,
-
-        "SMMTRU": 180.0,
-
-        "SMM_Index": 8.5,
-
+        "RHGF": 474.0,
+        "RHGFL": 427.0,
+        "RHGFU": 522.0,
+        "RLFM": 5.1,
+        "RLFMNRL": 1.7,
+        "RLFMNRU": 2.6,
+        "RLLM": 9.0,
+        "RLLMNRL": 8.1,
+        "RLLMNRU": 12.1,
+        "RLLM_Sco": 1.2,
+        "Report_Date": "2020-04-15 10:45",
+        "SAT": 294.8,
+        "SMM": 32.4,
+        "SMMNRL_Percent": 90.0,
+        "SMMNRU_Percent": 110.0,
+        "SMMTRL_Percent": 60.0,
+        "SMMTRU_Percent": 180.0,
+        "SMM_Index": 10.0,
         "Serial_No": "T18000001",
-
-        "TBW": 28.1,
-
-        "TBW_Div_FFM": 70.8,
-
-        "TFM": 0.5,
-
-        "TFMNRL": 4.2,
-
-        "TFMNRU": 6.3,
-
-        "TLM": 17.1,
-
-        "TLMNRL": 14.7,
-
-        "TLMNRU": 22.0,
-
-        "TLM_Sco": 1.3,
-
-        "User_ID": "09XX654321",
-
-        "User_Name": "小B",
-
-        "VFA": 0.1,
-
-        "WHR": 0.8,
-
-        "WHRNRL": 0.75,
-
-        "WHRNRU": 0.85,
-
-        "WHRTRL": 0.6,
-
+        "TBW": 40.6,
+        "TBW_Div_FFM": 70.2,
+        "TFM": 17.4,
+        "TFMNRL": 6.2,
+        "TFMNRU": 9.3,
+        "TLM": 25.7,
+        "TLMNRL": 20.6,
+        "TLMNRU": 30.9,
+        "TLM_Sco": 1.5,
+        "User_ID": "09XX123456",
+        "User_Name": "小A",
+        "VFA": 149.8,
+        "WHR": 0.91,
+        "WHRNRL": 0.8,
+        "WHRNRU": 0.9,
+        "WHRTRL": 0.65,
         "WHRTRU": 1.2,
-
-        "WLMNRL": 31.8,
-
-        "WLMNRU": 47.8,
-
-        "WNRL": 85.0,
-
-        "WNRU": 115.0,
-
-        "WTRL": 50.0,
-
-        "WTRU": 200.0,
-
-        "Weight": 44.7
-
+        "WLMNRL": 44.8,
+        "WLMNRU": 67.2,
+        "WNRL_Percent": 85.0,
+        "WNRU_Percent": 115.0,
+        "WTRL_Percent": 50.0,
+        "WTRU_Percent": 200.0,
+        "Weight": 89.3
     };
