@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>模擬器 V0.2</title>
+  <title>模擬器 V0.3</title>
   <meta name="msapplication-tap-highlight" content="no" />
 
   <!--  using Noto Sans TC is added by Paul Kang-->
@@ -84,7 +84,11 @@
     <button class="NotoSansFont" style="font-size:18px; margin-top:10px;" onclick="自動化執行()">自動化執行</button><br><br>
 
     <button style="font-size:18px; margin-top:10px; background-color:red; color:white" onclick="postStatus('cancel')">POST cancel</button>    
-    <button style="font-size:18px; margin-top:10px; background-color:red; color:white" onclick="postStatus('cancel_confirmed')">POST cancel_confirmed</button><br><br>    
+    <button style="font-size:18px; margin-top:10px; background-color:red; color:white" onclick="postStatus('cancel_confirmed')">POST cancel_confirmed</button><br>
+    <button style="font-size:18px; margin-top:10px; background-color:red; color:white" onclick="postStatus('Err_already_selected')">POST Err_already_selected</button> 
+    
+    
+    <br>
     
 
 
@@ -240,7 +244,12 @@
       "cancel": {
         "Timestamp":Date.now(),
         "status":"cancel"
-      },       
+      }, 
+
+      "Err_already_selected": {
+        "Timestamp":Date.now(),
+        "status":"Err_already_selected"
+      },      
     }
      
     var postResponse;
