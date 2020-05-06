@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>模擬器 V0.31</title>
+  <title>模擬器 V0.5</title>
   <meta name="msapplication-tap-highlight" content="no" />
 
   <!--  using Noto Sans TC is added by Paul Kang-->
@@ -70,9 +70,9 @@
   </div>
   
   <div id="buttons" style="margin-left:53%">
-    <button width="100px" style="font-size:18px; margin-top:10px;" onclick="getCMD()">Get select CMD</button><br>    
+    <button width="100px" style="font-size:18px; margin-top:10px;" onclick="getCMD('idle')">Get select CMD</button><br>    
     <button style="font-size:18px; margin-top:10px;" onclick="postStatus('select_confirmed')" >POST select_confirmed</button><br>
-    <button width="100px" style="font-size:18px; margin-top:10px;" onclick="getCMD()">Get user_info CMD</button><br>   
+    <button width="100px" style="font-size:18px; margin-top:10px;" onclick="getCMD('in_used')">Get user_info CMD</button><br>   
     <button style="font-size:18px; margin-top:10px;" onclick="postStatus('user_info_confirmed')" >POST user_info_confirmed</button><br>
     <button style="font-size:18px; margin-top:10px;" onclick="postStatus('logged_in')">POST logged_in</button><br> 
     <button style="font-size:18px; margin-top:10px;" onclick="postStatus('start_weight_measurement')">POST start_weight_measurement</button><br>
@@ -127,7 +127,7 @@
     
     var paramToSend;   
     
-    async function getCMD(){
+    async function getCMD(status){
       if (!powerIsOn) {
         console.log("Power is not on, tuen on power first");
         //$("#machineStatus").text("請先打開機器電源");
@@ -137,7 +137,7 @@
       
       //http://localhost:5000/cmd?XAPIKEY=LAotO6ljsV7rPLiT&Device_id=T00000001
       //paramToSend = "cmd?XAPIKEY=LAotO6ljsV7rPLiT&Device_id=T00000001";
-      paramToSend = "cmd?XAPIKEY=LAotO6ljsV7rPLiT&Device_id="+$("#machineSN_select").val();
+      paramToSend = "cmd?XAPIKEY=LAotO6ljsV7rPLiT&Device_id="+$("#machineSN_select").val()+"&Machine_status="+status;
       res = await callGetAPI(paramToSend); 
       //console.log(typeof res);
       var result = JSON.parse(res);
@@ -324,10 +324,10 @@
     }
     
     async function 自動化執行(){
-      await getCMD(); // get cmd: select
+      await getCMD("idle"); // get cmd: select
       
       setTimeout( async function() {await postStatus('select_confirmed')}, 1000);
-      setTimeout( async function() {await getCMD()}, 2000); // get cmd: user_info      
+      setTimeout( async function() {await getCMD("in_used")}, 2000); // get cmd: user_info      
       setTimeout( async function() {await postStatus('user_info_confirmed')}, 3000);
       setTimeout( async function() {await postStatus('logged_in')}, 4000); 
       setTimeout( async function() {await postStatus('start_weight_measurement')}, 5000);
